@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Docker,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在 Centos 上安装 Docker 前置条件   64-bit 系统 kernel 3.10+ 1.检查内核版本，返回的值大于 3.10 即可。   1$ uname -r 2.使用 sudo 或 root 权限的用户登入终端。">
+<meta name="keywords" content="Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Centos中安装Docker">
+<meta property="og:url" content="https://godd6366.github.io/2017/08/26/其他/Install-Docker-Into-Centos/index.html">
+<meta property="og:site_name" content="GodD&#39;s Blog">
+<meta property="og:description" content="在 Centos 上安装 Docker 前置条件   64-bit 系统 kernel 3.10+ 1.检查内核版本，返回的值大于 3.10 即可。   1$ uname -r 2.使用 sudo 或 root 权限的用户登入终端。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-05-12T02:31:39.345Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Centos中安装Docker">
+<meta name="twitter:description" content="在 Centos 上安装 Docker 前置条件   64-bit 系统 kernel 3.10+ 1.检查内核版本，返回的值大于 3.10 即可。   1$ uname -r 2.使用 sudo 或 root 权限的用户登入终端。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://godd6366.github.io/2017/08/26/其他/Install-Docker-Into-Centos/">
+
+
+
+
+
+  <title>在Centos中安装Docker | GodD's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-88378448-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65a692c2169a4259d0b4c4f5f85e48d0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GodD's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">One Coding Husbandman!</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://godd6366.github.io/2017/08/26/其他/Install-Docker-Into-Centos/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dai Changchun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GodD's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">在Centos中安装Docker</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-26T18:26:28+08:00">
+                2017-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/26/其他/Install-Docker-Into-Centos/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/26/其他/Install-Docker-Into-Centos/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/08/26/其他/Install-Docker-Into-Centos/" class="leancloud_visitors" data-flag-title="在Centos中安装Docker">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="在-Centos-上安装-Docker"><a href="#在-Centos-上安装-Docker" class="headerlink" title="在 Centos 上安装 Docker"></a>在 Centos 上安装 Docker</h1><blockquote>
+<p>前置条件</p>
+</blockquote>
+<ul>
+<li>64-bit 系统</li>
+<li><p>kernel 3.10+</p>
+<p>1.检查内核版本，返回的值大于 3.10 即可。</p>
+</li>
+</ul>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="ELIXIR"><figure class="iseeu highlight /elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>uname -r</span><br></pre></td></tr></table></figure></div>
+<p>2.使用 sudo 或 root 权限的用户登入终端。</p>
+<a id="more"></a>
+<p>3.确保 yum 是最新的</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="ELIXIR"><figure class="iseeu highlight /elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>yum update</span><br></pre></td></tr></table></figure></div>
+<p>4.添加 yum 仓库</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="MAKEFILE"><figure class="iseeu highlight /makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ tee /etc/yum.repos.d/docker.repo &lt;&lt;-'EOF'</span><br><span class="line">[dockerrepo]</span><br><span class="line">name=Docker Repository</span><br><span class="line">baseurl=https://yum.dockerproject.org/repo/main/centos/$releasever/</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=https://yum.dockerproject.org/gpg</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></div>
+<p>5.安装 Docker</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="SQL"><figure class="iseeu highlight /sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum <span class="keyword">install</span> -y docker-<span class="keyword">engine</span></span><br></pre></td></tr></table></figure></div>
+<p>6.启动 docker</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="CRMSH"><figure class="iseeu highlight /crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl <span class="literal">start</span> docker.service</span><br></pre></td></tr></table></figure></div>
+<p>7.验证安装是否成功(有 client 和 service 两部分表示 docker 安装启动都成功了)</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="YAML"><figure class="iseeu highlight /yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">$</span> <span class="string">docker</span> <span class="string">version</span></span><br><span class="line"></span><br><span class="line"><span class="string">//出现下面的内容就是成功了</span></span><br><span class="line"><span class="attr">Client:</span></span><br><span class="line"><span class="attr"> Version:</span>      <span class="number">1.13</span><span class="number">.1</span></span><br><span class="line"> <span class="string">API</span> <span class="attr">version:</span>  <span class="number">1.26</span></span><br><span class="line"> <span class="string">Go</span> <span class="attr">version:</span>   <span class="string">go1.7.5</span></span><br><span class="line"> <span class="string">Git</span> <span class="attr">commit:</span>   <span class="number">092</span><span class="string">cba3</span></span><br><span class="line"><span class="attr"> Built:</span>        <span class="string">Wed</span> <span class="string">Feb</span>  <span class="number">8</span> <span class="number">08</span><span class="string">:47:51</span> <span class="number">2017</span></span><br><span class="line"> <span class="string">OS/Arch:</span>      <span class="string">darwin/amd64</span></span><br><span class="line"></span><br><span class="line"><span class="attr">Server:</span></span><br><span class="line"><span class="attr"> Version:</span>      <span class="number">1.13</span><span class="number">.1</span></span><br><span class="line"> <span class="string">API</span> <span class="attr">version:</span>  <span class="number">1.26</span> <span class="string">(minimum</span> <span class="string">version</span> <span class="number">1.12</span><span class="string">)</span></span><br><span class="line"> <span class="string">Go</span> <span class="attr">version:</span>   <span class="string">go1.7.5</span></span><br><span class="line"> <span class="string">Git</span> <span class="attr">commit:</span>   <span class="number">092</span><span class="string">cba3</span></span><br><span class="line"><span class="attr"> Built:</span>        <span class="string">Wed</span> <span class="string">Feb</span>  <span class="number">8</span> <span class="number">08</span><span class="string">:47:51</span> <span class="number">2017</span></span><br><span class="line"> <span class="string">OS/Arch:</span>      <span class="string">linux/amd64</span></span><br><span class="line"><span class="attr"> Experimental:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></div>
+<h2 id="Docker-常用命令"><a href="#Docker-常用命令" class="headerlink" title="Docker 常用命令"></a>Docker 常用命令</h2><p>根据类型对命令进行分类</p>
+<blockquote>
+<ol>
+<li>容器生命周期管理 — docker [run|start|stop|restart|kill|rm|pause|unpause]</li>
+<li>容器操作运维 — docker [ps|inspect|top|attach|events|logs|wait|export|port]</li>
+<li>容器 rootfs 命令 — docker [commit|cp|diff]</li>
+<li>镜像仓库 — docker [login|pull|push|search]</li>
+<li>本地镜像管理 — docker [images|rmi|tag|build|history|save|import]</li>
+<li>其他命令 — docker [info|version]</li>
+</ol>
+</blockquote>
+<h3 id="1-列出机器上的镜像（images）"><a href="#1-列出机器上的镜像（images）" class="headerlink" title="1. 列出机器上的镜像（images）"></a>1. 列出机器上的镜像（images）</h3><div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="LSL"><figure class="iseeu highlight /lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># docker images</span><br><span class="line">REPOSITORY                    TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">hub.c<span class="number">.163</span>.com/library/node    latest              <span class="number">5e553613</span>f1d8        <span class="number">7</span> days ago          <span class="number">669</span>MB</span><br><span class="line">hub.c<span class="number">.163</span>.com/library/nginx   latest              <span class="number">46102226</span>f2fd        <span class="number">3</span> months ago        <span class="number">109</span>MB</span><br><span class="line">hub.c<span class="number">.163</span>.com/library/mysql   latest              <span class="number">9e64176</span>cd8a2        <span class="number">4</span> months ago        <span class="number">407</span>MB</span><br></pre></td></tr></table></figure></div>
+<p>其中我们可以根据 REPOSITORY 来判断这个镜像是来自哪个服务器，如果没有 / 则表示官方镜像，类似于 username/repos_name 表示 Github 的个人公共库，类似于 hub.c.163.com/library/nginx 则表示的是网易的私服。<br>IMAGE ID 列其实是缩写，要显示完整则带上–no-trunc 选项</p>
+<h3 id="2-在-docker-index-中搜索-image（search）"><a href="#2-在-docker-index-中搜索-image（search）" class="headerlink" title="2. 在 docker index 中搜索 image（search）"></a>2. 在 docker index 中搜索 image（search）</h3><div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="ROUTEROS"><figure class="iseeu highlight /routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker search nginx</span></span><br><span class="line">NAME                                                   DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">nginx                                                  Official build of Nginx.                        6695      [OK]</span><br><span class="line">jwilder/nginx-proxy                                    Automated Nginx reverse<span class="built_in"> proxy </span><span class="keyword">for</span> docker c<span class="built_in">..</span>.   1099                 [OK]</span><br><span class="line">richarvey/nginx-php-fpm                                Container running Nginx + PHP-FPM capable <span class="built_in">..</span>.   429                  [OK]</span><br></pre></td></tr></table></figure></div>
+<p>搜索的范围是官方镜像和所有个人公共镜像。NAME 列的 / 后面是仓库的名字。</p>
+<h3 id="3-从-docker-registry-server-中下拉-image-或-repository（pull）"><a href="#3-从-docker-registry-server-中下拉-image-或-repository（pull）" class="headerlink" title="3. 从 docker registry server 中下拉 image 或 repository（pull）"></a>3. 从 docker registry server 中下拉 image 或 repository（pull）</h3><div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="VALA"><figure class="iseeu highlight /vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># docker pull nginx</span></span><br></pre></td></tr></table></figure></div>
+<p>当然也可以从某个人的公共仓库（包括自己是私人仓库）拉取，形如 docker pull username/repository&lt;:tag_name&gt; ：</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="VALA"><figure class="iseeu highlight /vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># docker pull seanlook/centos:centos6</span></span><br></pre></td></tr></table></figure></div>
+<p>如果你没有网络，或者从其他私服获取镜像，形如 docker pull registry.domain.com:5000/repos:&lt;tag_name&gt;</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="LESS"><figure class="iseeu highlight /less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># <span class="selector-tag">docker</span> <span class="selector-tag">pull</span> <span class="selector-tag">dl</span><span class="selector-class">.dockerpool</span><span class="selector-class">.com</span><span class="selector-pseudo">:5000</span>/<span class="selector-tag">mongo</span><span class="selector-pseudo">:latest</span></span><br></pre></td></tr></table></figure></div>
+<h3 id="4-推送一个-image-或-repository-到-registry（push）"><a href="#4-推送一个-image-或-repository-到-registry（push）" class="headerlink" title="4. 推送一个 image 或 repository 到 registry（push）"></a>4. 推送一个 image 或 repository 到 registry（push）</h3><p>与上面的 pull 对应，可以推送到 Docker Hub 的 Public、Private 以及私服，但不能推送到 Top Level Repository。</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="VALA"><figure class="iseeu highlight /vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># docker push seanlook/mongo</span></span><br><span class="line"><span class="meta"># docker push registry.tp-link.net:5000/mongo:2014-10-27</span></span><br></pre></td></tr></table></figure></div>
+<p>registry.tp-link.net 也可以写成 IP，172.29.88.222。<br>在 repository 不存在的情况下，命令行下 push 上去的会为我们创建为私有库，然而通过浏览器创建的默认为公共库。</p>
+<h3 id="5-从-image-启动一个-container（run）"><a href="#5-从-image-启动一个-container（run）" class="headerlink" title="5. 从 image 启动一个 container（run）"></a>5. 从 image 启动一个 container（run）</h3><p>docker run 命令首先会从特定的 image 创之上 create 一层可写的 container，然后通过 start 命令来启动它。停止的 container 可以重新启动并保留原来的修改。run 命令启动参数有很多，以下是一些常规使用说明，更多部分请参考<a href="http://www.cnphp6.com/archives/24899" target="_blank" rel="noopener"><em>前往查看</em></a><br>当利用 docker run 来创建容器时，Docker 在后台运行的标准操作包括：</p>
+<ul>
+<li>检查本地是否存在指定的镜像，不存在就从公有仓库下载</li>
+<li>利用镜像创建并启动一个容器</li>
+<li>分配一个文件系统，并在只读的镜像层外面挂载一层可读写层</li>
+<li>从宿主主机配置的网桥接口中桥接一个虚拟接口到容器中去</li>
+<li>从地址池配置一个 ip 地址给容器</li>
+<li>执行用户指定的应用程序</li>
+<li>执行完毕后容器被终止<br>Usage: docker run [OPTIONS] IMAGE [COMMAND][arg…]</li>
+</ul>
+<h3 id="5-1-使用-image-创建-container-并执行相应命令，然后停止"><a href="#5-1-使用-image-创建-container-并执行相应命令，然后停止" class="headerlink" title="5.1 使用 image 创建 container 并执行相应命令，然后停止"></a>5.1 使用 image 创建 container 并执行相应命令，然后停止</h3><div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="ARDUINO"><figure class="iseeu highlight /arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># docker run ubuntu echo <span class="meta-string">"hello world"</span></span></span><br><span class="line">hello <span class="keyword">word</span></span><br></pre></td></tr></table></figure></div>
+<p>这是最简单的方式，跟在本地直接执行 echo ‘hello world’ 几乎感觉不出任何区别，而实际上它会从本地 ubuntu:latest 镜像启动到一个容器，并执行打印命令后退出（docker ps -l 可查看）。需要注意的是，默认有一个–rm=true 参数，即完成操作后停止容器并从文件系统移除。因为 Docker 的容器实在太轻量级了，很多时候用户都是随时删除和新创建容器。<br>容器启动后会自动随机生成一个 CONTAINER ID，这个 ID 在后面 commit 命令后可以变为 IMAGE ID</p>
+<h4 id="使用-image-创建-container-并进入交互模式-login-shell-是-bin-bash"><a href="#使用-image-创建-container-并进入交互模式-login-shell-是-bin-bash" class="headerlink" title="使用 image 创建 container 并进入交互模式, login shell 是/bin/bash"></a>使用 image 创建 container 并进入交互模式, login shell 是/bin/bash</h4><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># docker run -i -t --name mytest centos:centos6 /bin/bash</span></span><br><span class="line">bash-<span class="number">4.1</span><span class="meta">#</span></span><br></pre></td></tr></table></figure>
+<p>上面的–name 参数可以指定启动后的容器名字，如果不指定则 docker 会帮我们取一个名字。镜像 centos:centos6 也可以用 IMAGE ID (68edf809afe7) 代替），并且会启动一个伪终端，但通过 ps 或 top 命令我们却只能看到一两个进程，因为容器的核心是所执行的应用程序，所需要的资源都是应用程序运行所必需的，除此之外，并没有其它的资源，可见 Docker 对资源的利用率极高。此时使用 exit 或 Ctrl+D 退出后，这个容器也就消失了（消失后的容器并没有完全删除？）<br>（那么多个 TAG 不同而 IMAGE ID 相同的的镜像究竟会运行以哪一个 TAG 启动呢</p>
+<h3 id="5-2-运行出一个-container-放到后台运行"><a href="#5-2-运行出一个-container-放到后台运行" class="headerlink" title="5.2 运行出一个 container 放到后台运行"></a>5.2 运行出一个 container 放到后台运行</h3><div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="LLVM"><figure class="iseeu highlight /llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># docker run -d ubuntu /bin/sh -<span class="keyword">c</span> <span class="string">"while true; do echo hello world; sleep 2; done"</span></span><br><span class="line">ae<span class="number">60</span><span class="keyword">c</span><span class="number">4</span>b<span class="number">642058</span>fefcc<span class="number">61</span>ada<span class="number">85</span>a<span class="number">610914</span>bed<span class="number">9</span>f<span class="number">5</span>df<span class="number">0e2</span>aa<span class="number">147100</span>eab<span class="number">85</span>cea<span class="number">785</span>dc</span><br></pre></td></tr></table></figure></div>
+<p>它将直接把启动的 container 挂起放在后台运行（这才叫 saas），并且会输出一个 CONTAINER ID，通过 docker ps 可以看到这个容器的信息，可在 container 外面查看它的输出 docker logs ae60c4b64205，也可以通过 docker attach ae60c4b64205 连接到这个正在运行的终端，此时在 Ctrl+C 退出 container 就消失了，按 ctrl-p ctrl-q 可以退出到宿主机，而保持 container 仍然在运行<br>另外，如果-d 启动但后面的命令执行完就结束了，如/bin/bash、echo test，则 container 做完该做的时候依然会终止。而且-d 不能与–rm 同时使用<br>可以通过这种方式来运行 memcached、apache 等。</p>
+<h3 id="5-3-映射-host-到-container-的端口和目录"><a href="#5-3-映射-host-到-container-的端口和目录" class="headerlink" title="5.3 映射 host 到 container 的端口和目录"></a>5.3 映射 host 到 container 的端口和目录</h3><p>映射主机到容器的端口是很有用的，比如在 container 中运行 memcached，端口为 11211，运行容器的 host 可以连接 container 的 internel_ip:11211 访问，如果有从其他主机访问 memcached 需求那就可以通过-p 选项，形如-p &lt;host_port:contain_port&gt;，存在以下几种写法：</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="CSS"><figure class="iseeu highlight /css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">-p</span> 11211<span class="selector-pseudo">:11211</span> 这个即是默认情况下，绑定主机所有网卡（0<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.0</span>）的11211端口到容器的11211端口上</span><br><span class="line"><span class="selector-tag">-p</span> 127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:11211</span><span class="selector-pseudo">:11211</span> 只绑定<span class="selector-tag">localhost</span>这个接口的11211端口</span><br><span class="line"><span class="selector-tag">-p</span> 127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">::5000</span></span><br><span class="line"><span class="selector-tag">-p</span> 127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:80</span><span class="selector-pseudo">:8080</span></span><br></pre></td></tr></table></figure></div>
+<p>目录映射其实是“绑定挂载”host 的路径到 container 的目录，这对于内外传送文件比较方便，在搭建私服那一节，为了避免私服 container 停止以后保存的 images 不被删除，就要把提交的 images 保存到挂载的主机目录下。使用比较简单，-v &lt;host_path:container_path&gt;，绑定多个目录时再加-v。</p>
+<p>-v /tmp/docker:/tmp/docker<br>另外在两个 container 之间建立联系可用–link，详见高级部分或官方文档。<br>下面是一个例子：</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="AWK"><figure class="iseeu highlight /awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker run --name nginx_test \</span></span><br><span class="line">&gt; -v <span class="regexp">/tmp/</span>docker:<span class="regexp">/usr/</span>share<span class="regexp">/nginx/</span>html:ro \</span><br><span class="line">&gt; -p <span class="number">80</span>:<span class="number">80</span> -d \</span><br><span class="line">&gt; nginx:<span class="number">1.7</span>.<span class="number">6</span></span><br></pre></td></tr></table></figure></div>
+<p>在主机的/tmp/docker 下建立 index.html，就可以通过<a href="http://localhost:80/或http://host-ip:80访问了。" target="_blank" rel="noopener">http://localhost:80/或http://host-ip:80访问了。</a></p>
+<h3 id="6-将一个-container-固化为一个新的-image（commit）"><a href="#6-将一个-container-固化为一个新的-image（commit）" class="headerlink" title="6. 将一个 container 固化为一个新的 image（commit）"></a>6. 将一个 container 固化为一个新的 image（commit）</h3><p>当我们在制作自己的镜像的时候，会在 container 中安装一些工具、修改配置，如果不做 commit 保存起来，那么 container 停止以后再启动，这些更改就消失了。<br>docker commit <container> [repo:tag]<br>后面的 repo:tag 可选<br>只能提交正在运行的 container，即通过 docker ps 可以看见的容器，</container></p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="LLVM"><figure class="iseeu highlight /llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">查看刚运行过的容器</span><br><span class="line"># docker ps -l</span><br><span class="line">CONTAINER ID   IMAGE     COMMAND      CREATED       STATUS        PORTS   NAMES</span><br><span class="line"><span class="keyword">c</span><span class="number">9</span>fdf<span class="number">26326</span><span class="keyword">c</span><span class="number">9</span>   nginx:<span class="number">1</span>   nginx -g..   <span class="number">3</span> hours ago   Exited (<span class="number">0</span>)..     nginx_test</span><br><span class="line"></span><br><span class="line">启动一个已存在的容器（run是从image新建容器后再启动），以下也可以使用docker start nginx_test代替</span><br><span class="line">[root<span class="title">@hostname</span> docker]# docker start <span class="keyword">c</span><span class="number">9</span>fdf<span class="number">26326</span><span class="keyword">c</span><span class="number">9</span></span><br><span class="line"><span class="keyword">c</span><span class="number">9</span>fdf<span class="number">26326</span><span class="keyword">c</span><span class="number">9</span></span><br><span class="line"></span><br><span class="line">docker run -i -t --sig-proxy=<span class="keyword">false</span> <span class="number">21</span>ffe<span class="number">545748</span>baf /bin/bash</span><br><span class="line">nginx服务没有启动</span><br><span class="line"></span><br><span class="line"># docker commit -m <span class="string">"some tools installed"</span> fcbd<span class="number">0</span>a<span class="number">5348</span>ca seanlook/ubuntu:<span class="number">14.10</span>_tutorial</span><br><span class="line">fe<span class="number">022762070</span>b<span class="number">09866</span>eaab<span class="number">47</span>bc<span class="number">943</span>ccb<span class="number">796e53</span>f<span class="number">3</span>f<span class="number">416</span>abf<span class="number">3</span>f<span class="number">2327481</span>b<span class="number">446</span>a<span class="number">9503</span></span><br></pre></td></tr></table></figure></div>
+<p>-a “<a href="mailto:seanlook7@gmail.com" target="_blank" rel="noopener">seanlook7@gmail.com</a>“<br>请注意，当你反复去 commit 一个容器的时候，每次都会得到一个新的 IMAGE ID，假如后面的 repository:tag 没有变，通过 docker images 可以看到，之前提交的那份镜像的 repository:tag 就会变成<none>:<none>，所以尽量避免反复提交。<br>另外，观察以下几点:</none></none></p>
+<ul>
+<li><p>commit container 只会 pause 住容器，这是为了保证容器文件系统的一致性，但不会 stop。如果你要对这个容器继续做其他修改：</p>
+</li>
+<li><p>你可以重新提交得到新 image2，删除次新的 image1<br>也可以关闭容器用新 image1 启动，继续修改，提交 image2 后删除 image1<br>当然这样会很痛苦，所以一般是采用 Dockerfile 来 build 得到最终 image，参考[]<br>虽然产生了一个新的 image，并且你可以看到大小有 100MB，但从 commit 过程很快就可以知道实际上它并没有独立占用 100MB 的硬盘空间，而只是在旧镜像的基础上修改，它们共享大部分公共的“片”。</p>
+</li>
+</ul>
+<h3 id="7-开启-停止-重启-container（start-stop-restart）"><a href="#7-开启-停止-重启-container（start-stop-restart）" class="headerlink" title="7.开启/停止/重启 container（start/stop/restart）"></a>7.开启/停止/重启 container（start/stop/restart）</h3><p>容器可以通过 run 新建一个来运行，也可以重新 start 已经停止的 container，但 start 不能够再指定容器启动时运行的指令，因为 docker 只能有一个前台进程。<br>容器 stop（或 Ctrl+D）时，会在保存当前容器的状态之后退出，下次 start 时保有上次关闭时更改。而且每次进入 attach 进去的界面是一样的，与第一次 run 启动或 commit 提交的时刻相同。</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="ROUTEROS"><figure class="iseeu highlight /routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">CONTAINER_ID</span>=$(docker start &lt;containner_id&gt;)</span><br><span class="line">docker stop <span class="variable">$CONTAINER_ID</span></span><br><span class="line">docker restart <span class="variable">$CONTAINER_ID</span></span><br></pre></td></tr></table></figure></div>
+<h3 id="8-连接到正在运行中的-container（attach）"><a href="#8-连接到正在运行中的-container（attach）" class="headerlink" title="8.连接到正在运行中的 container（attach）"></a>8.连接到正在运行中的 container（attach）</h3><p>要 attach 上去的容器必须正在运行，可以同时连接上同一个 container 来共享屏幕（与 screen 命令的 attach 类似）。<br>官方文档中说 attach 后可以通过 CTRL-C 来 detach，但实际上经过我的测试，如果 container 当前在运行 bash，CTRL-C 自然是当前行的输入，没有退出；如果 container 当前正在前台运行进程，如输出 nginx 的 access.log 日志，CTRL-C 不仅会导致退出容器，而且还 stop 了。这不是我们想要的，detach 的意思按理应该是脱离容器终端，但容器依然运行。好在 attach 是可以带上–sig-proxy=false 来确保 CTRL-D 或 CTRL-C 不会关闭容器。</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="SHELL"><figure class="iseeu highlight /shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> docker attach --sig-proxy=<span class="literal">false</span> <span class="variable">$CONTAINER_ID</span></span></span><br></pre></td></tr></table></figure></div>
+<h3 id="9-查看-image-或-container-的底层信息（inspect）"><a href="#9-查看-image-或-container-的底层信息（inspect）" class="headerlink" title="9.查看 image 或 container 的底层信息（inspect）"></a>9.查看 image 或 container 的底层信息（inspect）</h3><p>inspect 的对象可以是 image、运行中的 container 和停止的 container。</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="LSL"><figure class="iseeu highlight /lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">查看容器的内部IP</span><br><span class="line"># docker inspect --format='&#123;&#123;.NetworkSettings.IPAddress&#125;&#125;' $CONTAINER_ID</span><br><span class="line"><span class="number">172.17</span><span class="number">.42</span><span class="number">.35</span></span><br></pre></td></tr></table></figure></div>
+<h3 id="10-删除一个或多个-container、image（rm、rmi）"><a href="#10-删除一个或多个-container、image（rm、rmi）" class="headerlink" title="10.删除一个或多个 container、image（rm、rmi）"></a>10.删除一个或多个 container、image（rm、rmi）</h3><p>你可能在使用过程中会 build 或 commit 许多镜像，无用的镜像需要删除。但删除这些镜像是有一些条件的：</p>
+<ul>
+<li>同一个 IMAGE ID 可能会有多个 TAG（可能还在不同的仓库），首先你要根据这些 image names 来删除标签，当删除最后一个 tag 的时候就会自动删除镜像；</li>
+<li>承上，如果要删除的多个 IMAGE NAME 在同一个 REPOSITORY，可以通过 docker rmi &lt;image_id&gt;来同时删除剩下的 TAG；若在不同 Repo 则还是需要手动逐个删除 TAG；</li>
+<li>还存在由这个镜像启动的 container 时（即便已经停止），也无法删除镜像；<br>TO-DO<br>如何查看镜像与容器的依存关系</li>
+</ul>
+<p>删除容器<br>docker rm &lt;container_id/contaner_name&gt;</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="GCODE"><figure class="iseeu highlight /gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">删除所有停止的容器</span><br><span class="line">docker rm $<span class="comment">(docker ps -a -q)</span></span><br></pre></td></tr></table></figure></div>
+<p>删除镜像<br>docker rmi &lt;image_id/image_name …&gt;<br>下面是一个完整的示例：</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="SQL"><figure class="iseeu highlight /sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker images            &lt;==</span></span><br><span class="line">ubuntu            13.10        195eb90b5349       4 months ago       184.6 MB</span><br><span class="line">ubuntu            saucy        195eb90b5349       4 months ago       184.6 MB</span><br><span class="line">seanlook/ubuntu   rm_test      195eb90b5349       4 months ago       184.6 MB</span><br><span class="line"></span><br><span class="line">使用195eb90b5349启动、停止一个容器后，删除这个镜像</span><br><span class="line"><span class="comment"># docker rmi 195eb90b5349</span></span><br><span class="line">Error response from daemon: Conflict, cannot <span class="keyword">delete</span> image <span class="number">195</span>eb90b5349 because it <span class="keyword">is</span></span><br><span class="line">tagged <span class="keyword">in</span> multiple repositories, <span class="keyword">use</span> -f <span class="keyword">to</span> <span class="keyword">force</span></span><br><span class="line"><span class="number">2014</span>/<span class="number">11</span>/<span class="number">04</span> <span class="number">14</span>:<span class="number">19</span>:<span class="number">00</span> <span class="keyword">Error</span>: <span class="keyword">failed</span> <span class="keyword">to</span> remove one <span class="keyword">or</span> more images</span><br><span class="line"></span><br><span class="line">删除seanlook仓库中的tag     &lt;==</span><br><span class="line"><span class="comment"># docker rmi seanlook/ubuntu:rm_test</span></span><br><span class="line">Untagged: seanlook/ubuntu:rm_test</span><br><span class="line"></span><br><span class="line">现在删除镜像，还会由于<span class="keyword">container</span>的存在不能rmi</span><br><span class="line"><span class="comment"># docker rmi 195eb90b5349</span></span><br><span class="line"><span class="keyword">Error</span> response <span class="keyword">from</span> daemon: Conflict, cannot <span class="keyword">delete</span> <span class="number">195</span>eb90b5349 because the</span><br><span class="line"> <span class="keyword">container</span> eef3648a6e77 <span class="keyword">is</span> <span class="keyword">using</span> it, <span class="keyword">use</span> -f <span class="keyword">to</span> <span class="keyword">force</span></span><br><span class="line"><span class="number">2014</span>/<span class="number">11</span>/<span class="number">04</span> <span class="number">14</span>:<span class="number">24</span>:<span class="number">15</span> <span class="keyword">Error</span>: <span class="keyword">failed</span> <span class="keyword">to</span> remove one <span class="keyword">or</span> more images</span><br><span class="line"></span><br><span class="line">先删除由这个镜像启动的容器    &lt;==</span><br><span class="line"><span class="comment"># docker rm eef3648a6e77</span></span><br><span class="line"></span><br><span class="line">删除镜像                    &lt;==</span><br><span class="line"><span class="comment"># docker rmi 195eb90b5349</span></span><br><span class="line">Deleted: <span class="number">195</span>eb90b534950d334188c3627f860fbdf898e224d8a0a11ec54ff453175e081</span><br><span class="line">Deleted: <span class="number">209</span>ea56fda6dc2fb013e4d1e40cb678b2af91d1b54a71529f7df0bd867adc961</span><br><span class="line">Deleted: <span class="number">0</span>f4aac48388f5d65a725ccf8e7caada42f136026c566528a5ee9b02467dac90a</span><br><span class="line">Deleted: fae16849ebe23b48f2bedcc08aaabd45408c62b531ffd8d3088592043d5e7364</span><br><span class="line">Deleted: f127542f0b6191e99bb015b672f5cf48fa79d974784ac8090b11aeac184eaaff</span><br></pre></td></tr></table></figure></div>
+<h3 id="11-docker-build-使用此配置生成新的-image"><a href="#11-docker-build-使用此配置生成新的-image" class="headerlink" title="11.docker build 使用此配置生成新的 image"></a>11.docker build 使用此配置生成新的 image</h3><p>build 命令可以从 Dockerfile 和上下文来创建镜像：<br>docker build [OPTIONS] PATH | URL | -<br>上面的 PATH 或 URL 中的文件被称作上下文，build image 的过程会先把这些文件传送到 docker 的服务端来进行的。<br>如果 PATH 直接就是一个单独的 Dockerfile 文件则可以不需要上下文；如果 URL 是一个 Git 仓库地址，那么创建 image 的过程中会自动 git clone 一份到本机的临时目录，它就成为了本次 build 的上下文。无论指定的 PATH 是什么，Dockerfile 是至关重要的，请参考 Dockerfile Reference。<br>请看下面的例子：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat Dockerfile</span></span><br><span class="line">FROM seanlook/nginx<span class="function">:bash_vim</span></span><br><span class="line">EXPOSE 80</span><br><span class="line">ENTRYPOINT <span class="string">/usr/sbin/nginx</span> -c <span class="string">/etc/nginx/nginx.conf</span> &amp;&amp; <span class="string">/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># docker build -t seanlook/nginx:bash_vim_Df .</span></span><br><span class="line">Sending build context to Docker daemon 73.45 MB</span><br><span class="line">Sending build context to Docker daemon</span><br><span class="line">Step 0 : FROM seanlook/nginx<span class="function">:bash_vim</span></span><br><span class="line"> <span class="params">---</span>&gt; aa8516fa0bb7</span><br><span class="line">Step 1 : EXPOSE 80</span><br><span class="line"> <span class="params">---</span>&gt; Using cache</span><br><span class="line"> <span class="params">---</span>&gt; fece07e2b515</span><br><span class="line">Step 2 : ENTRYPOINT <span class="string">/usr/sbin/nginx</span> -c <span class="string">/etc/nginx/nginx.conf</span> &amp;&amp; <span class="string">/bin/bash</span></span><br><span class="line"> <span class="params">---</span>&gt; Running in e08963fd5afb</span><br><span class="line"> <span class="params">---</span>&gt; d9bbd13f5066</span><br><span class="line">Removing intermediate container e08963fd5afb</span><br><span class="line">Successfully built d9bbd13f5066</span><br></pre></td></tr></table></figure>
+<p>上面的 PATH 为.，所以在当前目录下的所有文件（不包括.dockerignore 中的）将会被 tar 打包并传送到 docker daemon（一般在本机），从输出我们可以到 Sending build context…，最后有个 Removing intermediate container 的过程，可以通过–rm=false 来保留容器。<br>TO-DO<br>docker build github.com/creack/docker-firefox 失败。</p>
+<h3 id="12-给镜像打上标签（tag）"><a href="#12-给镜像打上标签（tag）" class="headerlink" title="12.给镜像打上标签（tag）"></a>12.给镜像打上标签（tag）</h3><p>tag 的作用主要有两点：一是为镜像起一个容易理解的名字，二是可以通过 docker tag 来重新指定镜像的仓库，这样在 push 时自动提交到仓库。</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="VIM"><figure class="iseeu highlight /vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">将同一IMAGE_ID的所有<span class="keyword">tag</span>，合并为一个新的</span><br><span class="line"># docker <span class="keyword">tag</span> <span class="number">195</span>eb90b5349 seanlook/ubuntu:rm_test</span><br><span class="line"></span><br><span class="line">新建一个<span class="keyword">tag</span>，保留旧的那条记录</span><br><span class="line"># docker <span class="keyword">tag</span> Registry/Repo<span class="variable">s:Tag</span> New_Registry/New_Repo<span class="variable">s:New_Tag</span></span><br></pre></td></tr></table></figure></div>
+<h3 id="13-查看容器的信息-container（ps）"><a href="#13-查看容器的信息-container（ps）" class="headerlink" title="13.查看容器的信息 container（ps）"></a>13.查看容器的信息 container（ps）</h3><p>docker ps 命令可以查看容器的 CONTAINER ID、NAME、IMAGE NAME、端口开启及绑定、容器启动后执行的 COMMNAD。经常通过 ps 来找到 CONTAINER_ID。<br>docker ps 默认显示当前正在运行中的 container<br>docker ps -a 查看包括已经停止的所有容器<br>docker ps -l 显示最新启动的一个容器（包括已停止的）</p>
+<h3 id="14-查看容器中正在运行的进程（top）"><a href="#14-查看容器中正在运行的进程（top）" class="headerlink" title="14.查看容器中正在运行的进程（top）"></a>14.查看容器中正在运行的进程（top）</h3><p>容器运行时不一定有/bin/bash 终端来交互执行 top 命令，查看 container 中正在运行的进程，况且还不一定有 top 命令，这是 docker top &lt;container_id/container_name&gt;就很有用了。实际上在 host 上使用 ps -ef|grep docker 也可以看到一组类似的进程信息，把 container 里的进程看成是 host 上启动 docker 的子进程就对了。</p>
+<h3 id="15-其他命令"><a href="#15-其他命令" class="headerlink" title="15.其他命令"></a>15.其他命令</h3><p>docker 还有一些如 login、cp、logs、export、import、load、kill 等不是很常用的命令，比较简单</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/26/其他/Docker-Nginx实现负载均衡/" rel="next" title="使用Docker+Nginx实现简单的负载均衡">
+                <i class="fa fa-chevron-left"></i> 使用Docker+Nginx实现简单的负载均衡
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/26/其他/Centos-Install-Nginx/" rel="prev" title="在Centos7中安装Nginx服务器的两个方法">
+                在Centos7中安装Nginx服务器的两个方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/img/head.jpg" alt="Dai Changchun">
+            
+              <p class="site-author-name" itemprop="name">Dai Changchun</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/archives/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/GodD6366" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/2823203383" target="_blank" title="微博">
+                    
+                      <i class="fa fa-fw fa-globe"></i>微博</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在-Centos-上安装-Docker"><span class="nav-number">1.</span> <span class="nav-text">在 Centos 上安装 Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-常用命令"><span class="nav-number">1.1.</span> <span class="nav-text">Docker 常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-列出机器上的镜像（images）"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 列出机器上的镜像（images）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-在-docker-index-中搜索-image（search）"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 在 docker index 中搜索 image（search）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-从-docker-registry-server-中下拉-image-或-repository（pull）"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 从 docker registry server 中下拉 image 或 repository（pull）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-推送一个-image-或-repository-到-registry（push）"><span class="nav-number">1.1.4.</span> <span class="nav-text">4. 推送一个 image 或 repository 到 registry（push）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-从-image-启动一个-container（run）"><span class="nav-number">1.1.5.</span> <span class="nav-text">5. 从 image 启动一个 container（run）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-使用-image-创建-container-并执行相应命令，然后停止"><span class="nav-number">1.1.6.</span> <span class="nav-text">5.1 使用 image 创建 container 并执行相应命令，然后停止</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-image-创建-container-并进入交互模式-login-shell-是-bin-bash"><span class="nav-number">1.1.6.1.</span> <span class="nav-text">使用 image 创建 container 并进入交互模式, login shell 是/bin/bash</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-运行出一个-container-放到后台运行"><span class="nav-number">1.1.7.</span> <span class="nav-text">5.2 运行出一个 container 放到后台运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-映射-host-到-container-的端口和目录"><span class="nav-number">1.1.8.</span> <span class="nav-text">5.3 映射 host 到 container 的端口和目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-将一个-container-固化为一个新的-image（commit）"><span class="nav-number">1.1.9.</span> <span class="nav-text">6. 将一个 container 固化为一个新的 image（commit）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-开启-停止-重启-container（start-stop-restart）"><span class="nav-number">1.1.10.</span> <span class="nav-text">7.开启/停止/重启 container（start/stop/restart）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-连接到正在运行中的-container（attach）"><span class="nav-number">1.1.11.</span> <span class="nav-text">8.连接到正在运行中的 container（attach）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-查看-image-或-container-的底层信息（inspect）"><span class="nav-number">1.1.12.</span> <span class="nav-text">9.查看 image 或 container 的底层信息（inspect）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-删除一个或多个-container、image（rm、rmi）"><span class="nav-number">1.1.13.</span> <span class="nav-text">10.删除一个或多个 container、image（rm、rmi）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-docker-build-使用此配置生成新的-image"><span class="nav-number">1.1.14.</span> <span class="nav-text">11.docker build 使用此配置生成新的 image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-给镜像打上标签（tag）"><span class="nav-number">1.1.15.</span> <span class="nav-text">12.给镜像打上标签（tag）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-查看容器的信息-container（ps）"><span class="nav-number">1.1.16.</span> <span class="nav-text">13.查看容器的信息 container（ps）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-查看容器中正在运行的进程（top）"><span class="nav-number">1.1.17.</span> <span class="nav-text">14.查看容器中正在运行的进程（top）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-其他命令"><span class="nav-number">1.1.18.</span> <span class="nav-text">15.其他命令</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dai Changchun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/velocity/1.2.1/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/velocity/1.2.1/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/three.js/r83/three.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://GodD.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://godd6366.github.io/2017/08/26/其他/Install-Docker-Into-Centos/';
+          this.page.identifier = '2017/08/26/其他/Install-Docker-Into-Centos/';
+          this.page.title = '在Centos中安装Docker';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://GodD.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0Oqnfn3akJaPz3yKEaezf55X-gzGzoHsz", "x4UcUi4K67VafFW2ziQTXWIK");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="jQuery,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Event Handler Attachment .on() 方法两种参数形式：.on( events [, selector ][, data ], handler )">
+<meta name="keywords" content="jQuery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery中事件的绑定">
+<meta property="og:url" content="https://godd6366.github.io/2016/11/20/JavaScript/jquery-event/index.html">
+<meta property="og:site_name" content="GodD&#39;s Blog">
+<meta property="og:description" content="Event Handler Attachment .on() 方法两种参数形式：.on( events [, selector ][, data ], handler )">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-05-12T02:31:39.343Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery中事件的绑定">
+<meta name="twitter:description" content="Event Handler Attachment .on() 方法两种参数形式：.on( events [, selector ][, data ], handler )">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://godd6366.github.io/2016/11/20/JavaScript/jquery-event/">
+
+
+
+
+
+  <title>jQuery中事件的绑定 | GodD's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-88378448-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65a692c2169a4259d0b4c4f5f85e48d0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GodD's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">One Coding Husbandman!</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://godd6366.github.io/2016/11/20/JavaScript/jquery-event/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dai Changchun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GodD's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">jQuery中事件的绑定</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-20T23:32:55+08:00">
+                2016-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/jQuery/" itemprop="url" rel="index">
+                    <span itemprop="name">jQuery</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/11/20/JavaScript/jquery-event/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/20/JavaScript/jquery-event/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2016/11/20/JavaScript/jquery-event/" class="leancloud_visitors" data-flag-title="jQuery中事件的绑定">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Event-Handler-Attachment"><a href="#Event-Handler-Attachment" class="headerlink" title="Event Handler Attachment"></a>Event Handler Attachment</h1><hr>
+<h2 id="on-方法"><a href="#on-方法" class="headerlink" title=".on() 方法"></a>.on() 方法</h2><h3 id="两种参数形式："><a href="#两种参数形式：" class="headerlink" title="两种参数形式："></a>两种参数形式：</h3><h3 id="on-events-selector-data-handler"><a href="#on-events-selector-data-handler" class="headerlink" title=".on( events [, selector ][, data ], handler )"></a>.on( events [, selector ][, data ], handler )</h3><a id="more"></a>
+<p><strong>events:</strong> 一个或多个可选的事件和命名空间，比如：”click” or “keydown.myPlugin”</p>
+<p><strong>selector:</strong> 一个选择器，用来匹配后代的元素，如果选择器为空或者没写，事件同样会在选择的元素（绑定的元素）上执行</p>
+<p><strong>data:</strong> 当一个事件被触发时，要传递给事件处理函数的 event.data</p>
+<p><strong>handler:</strong> 事件执行时所需要使用的函数,此函数可以 return false 并且可以简写成 false</p>
+<h3 id="on-events-selector-data"><a href="#on-events-selector-data" class="headerlink" title=".on( events [, selector ][, data ] )"></a>.on( events [, selector ][, data ] )</h3><p><strong>events:</strong> 这种形式的 event 是一个对象，同样可以绑定一个或多个事，但是采用键值对的形式，键后面可以跟需要执行函数</p>
+<p><strong>selector:</strong> _同上_</p>
+<p><strong>data:</strong> _同上_</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="JAVASCRIPT"><figure class="iseeu highlight /javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//两个event有点区别,第二个可以这么写</span></span><br><span class="line">.on(&#123;</span><br><span class="line">  click: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $( <span class="keyword">this</span> ).toggleClass( <span class="string">"active"</span> );</span><br><span class="line">  &#125;, <span class="attr">mouseenter</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $( <span class="keyword">this</span> ).addClass( <span class="string">"inside"</span> );</span><br><span class="line">  &#125;, <span class="attr">mouseleave</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $( <span class="keyword">this</span> ).removeClass( <span class="string">"inside"</span> );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></div>
+<hr>
+<h2 id="Event-names-and-namespaces"><a href="#Event-names-and-namespaces" class="headerlink" title="Event names and namespaces"></a>Event names and namespaces</h2><hr>
+<p>事件名称只能使用：字母、下划线、冒号</p>
+<p>调用.trigger()可以模拟用户操作，执行事件</p>
+<p>命名空间的使用是为了在取消绑定一个事件的时候不影响其他相同的事件，</p>
+<blockquote>
+<p><em>如：”click.myPlugin.simple”，卸载可以通过.off(“click.myPlugin”)或者.off(“click.simple”)或者.off(“click.myPlugin.simple”)</em>，<br>命名空间的使用类似 CSS，但是<strong>不分层次</strong>，而且必须匹配写入的所有命名空间才会卸载该元素的相应事件，比如”click.myPlugin.simple”只会卸载同时包含.myPlugin 和.simple 的元素的 click 事件，如果元素仅在.myPlugin 的命名空间，该元素的 click 事件不会被卸载！</p>
+</blockquote>
+<hr>
+<h2 id="Direct-and-delegated-events"><a href="#Direct-and-delegated-events" class="headerlink" title="Direct and delegated events"></a>Direct and delegated events</h2><hr>
+<p>因为冒泡机制，在传播路径上的所有绑定相同事件的元素都会被执行</p>
+<p>选择器为 null 或者 undefined 的时候，事件会直接绑定在当前元素上，选择器有值的时候，<br>事件绑定在父辈元素上，当点击子元素的时候，事件会冒泡到父辈元素上，当与选择器匹配的时候就会执行事件，否则不会执行</p>
+<blockquote>
+<p><em>事件绑定一般情况下是必须绑定已经存在的元素，但是使用 ON 的时候，可以伪绑定（实际不是绑定，是运用冒泡的原理实现代理）还没有存在的元素</em></p>
+</blockquote>
+<hr>
+<h2 id="The-event-handler-and-its-environment"><a href="#The-event-handler-and-its-environment" class="headerlink" title="The event handler and its environment"></a>The event handler and its environment</h2><hr>
+<p>handler 函数是必要的，可以使用匿名函数 可以通过调用 trigger()方法进行模拟事件的触发</p>
+<p><em>事件的冒泡可以使用<strong>event.stopPropagation()</strong>防止事件冒泡</em></p>
+<p><em>可以使用<strong>event.stopImmediatePropagation()</strong>保证事件按顺序执行</em></p>
+<p><em>可以调用的<strong>event.preventDefault()</strong>阻止浏览器的默认操作</em></p>
+<p>因为<strong>event.stopPropagation()</strong>和<strong>event.preventDefault()</strong>默认返回的是<strong>false</strong>，如果函数里只包含这两个语句，可以简写成\$( “a.disabled” ).on( “click”, false );</p>
+<blockquote>
+<p>1.在直接绑定即无选择器的时候 this 表示当前绑定的元素</p>
+</blockquote>
+<pre><code>2.在代理事件时,this不一定一直等于event.target，this会随着冒泡经过的元素而变化.
+this代表当前产生事件冒泡的元素，event.target代表产生该事件的元素
+</code></pre><hr>
+<h2 id="Passing-data-to-the-handler"><a href="#Passing-data-to-the-handler" class="headerlink" title="Passing data to the handler"></a>Passing data to the handler</h2><hr>
+<p>data 是可选的，如果不是 null 或者 undefined，那么处理程序会获得这个值，如果是字符串就必须保证选择器是存在的，否则会存在误读，一般是键值对的形式</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="JAVASCRIPT"><figure class="iseeu highlight /javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//弹出 Hello Karl</span></span><br><span class="line">$( <span class="string">"button"</span> ).on( <span class="string">"click"</span>, &#123;</span><br><span class="line">  name: <span class="string">"Karl"</span></span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    alert( <span class="string">"Hello "</span> + event.data.name );</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></div>
+<hr>
+<h2 id="Event-performance"><a href="#Event-performance" class="headerlink" title="Event performance"></a>Event performance</h2><hr>
+<p>为了提高性能，绑定事件选择器的时候尽量选择靠近的的父辈元素，不要过多的绑定在 body 和 document 上，一些使用频繁的事件可以用定时器控制刷新频率</p>
+<hr>
+<h2 id="Additional-notes"><a href="#Additional-notes" class="headerlink" title="Additional notes"></a>Additional notes</h2><hr>
+<p>一些方法不支持冒泡，如：focus、blur ，jQuery 定义了支持冒泡的 focusin、focusout 代替，使用时建议使用后者</p>
+<hr>
+<h2 id="bind-和-on-的区别"><a href="#bind-和-on-的区别" class="headerlink" title=".bind()和.on()的区别"></a>.bind()和.on()的区别</h2><hr>
+<p>on 比 bind 多了一项功能，当 on 参数列表中没有提供 selector，这时 bind 和 on 功能类似，当 on 有提供 selector 参数，\$set 就被委托了一个 handler 处理满足 selector 的子元素的相应事件</p>
+<hr>
+<h2 id="delegate-和-on-的区别"><a href="#delegate-和-on-的区别" class="headerlink" title=".delegate()和.on()的区别"></a>.delegate()和.on()的区别</h2><hr>
+<p>可以实现和 on 一样的效果，区别在于 delegate 的选择器参数在第一个，on 在第二个</p>
+<hr>
+<h2 id="one"><a href="#one" class="headerlink" title=".one()"></a>.one()</h2><hr>
+<p>看源码可以发现，one 就是调用一次 on，然后 off</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="JAVASCRIPT"><figure class="iseeu highlight /javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">   one: <span class="function"><span class="keyword">function</span>(<span class="params"> types, selector, data, fn </span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> on( <span class="keyword">this</span>, types, selector, data, fn, <span class="number">1</span> );</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">   事例：</span><br><span class="line">   $( <span class="string">"#foo"</span> ).one( <span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">     alert( <span class="string">"This will be displayed only once."</span> );</span><br><span class="line">   &#125;);</span><br><span class="line"></span><br><span class="line">   等价</span><br><span class="line">   $( <span class="string">"#foo"</span> ).on( <span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</span><br><span class="line">     alert( <span class="string">"This will be displayed only once."</span> );</span><br><span class="line">     $( <span class="keyword">this</span> ).off( event );</span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure></div>
+<hr>
+<h2 id="trigger"><a href="#trigger" class="headerlink" title=".trigger()"></a>.trigger()</h2><hr>
+<p>模拟事件的激活，会进行冒泡，使用.stopPropagation()可以阻止冒泡</p>
+<p><strong>.stopPropagation()后会自动<em>return false</em></strong></p>
+<hr>
+<h2 id="triggerHandler"><a href="#triggerHandler" class="headerlink" title=".triggerHandler()"></a>.triggerHandler()</h2><hr>
+<p>.triggerHandler() 方法并不会触发事件的默认行为</p>
+<p>.triggerHandler() 仅影响第一个匹配到的元素，并且不会冒泡</p>
+<p>如果没有触发任何事件会返回 undefined</p>
+<hr>
+<h2 id="off"><a href="#off" class="headerlink" title=".off()"></a>.off()</h2><hr>
+<p>移除事件时，可以命名空间进行移除，可以防止同类型的事件被误移除</p>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="JAVASCRIPT"><figure class="iseeu highlight /javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"button"</span>).on(<span class="string">"click.demo1"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	alert(<span class="string">"绑定了click.demo1"</span>);&#125;)</span><br><span class="line">$(<span class="string">"button"</span>).on(<span class="string">"click.demo2"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	alert(<span class="string">"绑定了click.demo2"</span>);&#125;)</span><br><span class="line"><span class="comment">//不使用命名空间,off时同时两个click都失效</span></span><br><span class="line">	$(<span class="string">"button"</span>).off(<span class="string">"click"</span>);</span><br><span class="line"><span class="comment">//使用命名空间,click.demo2依然会被触发</span></span><br><span class="line">	$(<span class="string">"button"</span>).off(<span class="string">"click.demo1"</span>);</span><br></pre></td></tr></table></figure></div>
+<hr>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><hr>
+<div class="highlight-wrap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="JAVASCRIPT"><figure class="iseeu highlight /javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//源码中bind、delegate、unbind、undelegate实际上都是调用的on和off</span></span><br><span class="line"></span><br><span class="line">jQuery.fn.extend( &#123;</span><br><span class="line"></span><br><span class="line">bind: <span class="function"><span class="keyword">function</span>(<span class="params"> types, data, fn </span>) </span>&#123;</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">this</span>.on( types, <span class="literal">null</span>, data, fn );</span><br><span class="line">&#125;,</span><br><span class="line">unbind: <span class="function"><span class="keyword">function</span>(<span class="params"> types, fn </span>) </span>&#123;</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">this</span>.off( types, <span class="literal">null</span>, fn );</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">delegate: <span class="function"><span class="keyword">function</span>(<span class="params"> selector, types, data, fn </span>) </span>&#123;</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">this</span>.on( types, selector, data, fn );</span><br><span class="line">&#125;,</span><br><span class="line">undelegate: <span class="function"><span class="keyword">function</span>(<span class="params"> selector, types, fn </span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ( namespace ) or ( selector, types [, fn] )</span></span><br><span class="line"><span class="keyword">return</span> <span class="built_in">arguments</span>.length === <span class="number">1</span> ?</span><br><span class="line"><span class="keyword">this</span>.off( selector, <span class="string">"**"</span> ) :</span><br><span class="line"><span class="keyword">this</span>.off( types, selector || <span class="string">"**"</span>, fn );</span><br><span class="line">&#125;</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jQuery/" rel="tag"># jQuery</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/05/其他/create-hexoblog/" rel="next" title="史上最简单的Hexo+GitHub的博客搭建教程">
+                <i class="fa fa-chevron-left"></i> 史上最简单的Hexo+GitHub的博客搭建教程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/30/其他/node-env/" rel="prev" title="Windows下搭建linux版node开发环境">
+                Windows下搭建linux版node开发环境 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/img/head.jpg" alt="Dai Changchun">
+            
+              <p class="site-author-name" itemprop="name">Dai Changchun</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/archives/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/GodD6366" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/2823203383" target="_blank" title="微博">
+                    
+                      <i class="fa fa-fw fa-globe"></i>微博</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Event-Handler-Attachment"><span class="nav-number">1.</span> <span class="nav-text">Event Handler Attachment</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#on-方法"><span class="nav-number">1.1.</span> <span class="nav-text">.on() 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#两种参数形式："><span class="nav-number">1.1.1.</span> <span class="nav-text">两种参数形式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#on-events-selector-data-handler"><span class="nav-number">1.1.2.</span> <span class="nav-text">.on( events [, selector ][, data ], handler )</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#on-events-selector-data"><span class="nav-number">1.1.3.</span> <span class="nav-text">.on( events [, selector ][, data ] )</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Event-names-and-namespaces"><span class="nav-number">1.2.</span> <span class="nav-text">Event names and namespaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Direct-and-delegated-events"><span class="nav-number">1.3.</span> <span class="nav-text">Direct and delegated events</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-event-handler-and-its-environment"><span class="nav-number">1.4.</span> <span class="nav-text">The event handler and its environment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Passing-data-to-the-handler"><span class="nav-number">1.5.</span> <span class="nav-text">Passing data to the handler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Event-performance"><span class="nav-number">1.6.</span> <span class="nav-text">Event performance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Additional-notes"><span class="nav-number">1.7.</span> <span class="nav-text">Additional notes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bind-和-on-的区别"><span class="nav-number">1.8.</span> <span class="nav-text">.bind()和.on()的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#delegate-和-on-的区别"><span class="nav-number">1.9.</span> <span class="nav-text">.delegate()和.on()的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#one"><span class="nav-number">1.10.</span> <span class="nav-text">.one()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trigger"><span class="nav-number">1.11.</span> <span class="nav-text">.trigger()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#triggerHandler"><span class="nav-number">1.12.</span> <span class="nav-text">.triggerHandler()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#off"><span class="nav-number">1.13.</span> <span class="nav-text">.off()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码分析"><span class="nav-number">1.14.</span> <span class="nav-text">源码分析</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dai Changchun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/velocity/1.2.1/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/velocity/1.2.1/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+  
+  <script type="text/javascript" src="https://cdn.bootcss.com/three.js/r83/three.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://GodD.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://godd6366.github.io/2016/11/20/JavaScript/jquery-event/';
+          this.page.identifier = '2016/11/20/JavaScript/jquery-event/';
+          this.page.title = 'jQuery中事件的绑定';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://GodD.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0Oqnfn3akJaPz3yKEaezf55X-gzGzoHsz", "x4UcUi4K67VafFW2ziQTXWIK");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
